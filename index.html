@@ -6,14 +6,27 @@
     <title>Video</title>
     <style>
       html, body { margin:0; min-height:100%; background:#000; }
-      body { min-height:100vh; display:grid; place-items:center; }
-      video { width:min(100vw, 56.25vh); max-height:100vh; display:block; background:#000; }
+      body { min-height:100dvh; display:grid; place-items:center; overflow:hidden; }
+      video { width:min(100vw, 56.25dvh); max-height:100dvh; display:block; background:#000; }
+      .pdf { position:fixed; z-index:1; right:max(16px, env(safe-area-inset-right)); bottom:max(16px, env(safe-area-inset-bottom)); width:44px; height:44px; display:grid; place-items:center; color:#fff; background:rgba(0,0,0,.72); border:1px solid rgba(255,255,255,.8); border-radius:50%; }
+      .pdf:focus-visible { outline:3px solid #fff; outline-offset:3px; }
+      .pdf svg { width:23px; height:23px; }
     </style>
   </head>
   <body>
-    <video controls playsinline preload="auto">
+    <video autoplay muted loop playsinline preload="auto">
         <source src="assets/video-cuestionario.mp4" type="video/mp4" />
         Su navegador no puede reproducir este video.
     </video>
+    <a class="pdf" href="assets/afiche-cuestionario.pdf" target="_blank" rel="noopener" aria-label="Abrir afiche estático en PDF">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M8 15h8M8 18h6M8 12h4"/></svg>
+    </a>
+    <script>
+      const video = document.querySelector('video');
+      video.play().catch(() => {});
+      const activarSonido = () => { video.muted = false; video.play().catch(() => {}); };
+      video.addEventListener('click', activarSonido, { once: true });
+      video.addEventListener('touchend', activarSonido, { once: true, passive: true });
+    </script>
   </body>
 </html>
